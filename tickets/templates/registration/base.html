@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>tickets</title>
+    
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">    
+    <link rel="stylesheet" href="{% static 'assets/vendor/icon-set/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
+
+    {% block pagescss %}
+    {% endblock %}
+
+  </head>
+
+  <body>
+    
+    {% block content %}
+    {% endblock content %}
+    
+    <script src="{% static 'assets/vendor/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/jquery-migrate/dist/jquery-migrate.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>    
+
+    <!-- JS Implementing Plugins -->
+    <script src="{% static 'assets/vendor/hs-toggle-password/dist/js/hs-toggle-password.js' %}"></script>
+    <script src="{% static 'assets/vendor/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+
+    <!-- JS Front -->
+    <script src="{% static 'assets/js/theme.min.js' %}"></script>
+
+    <!-- JS Plugins Init. -->
+    <script>
+    $(document).on('ready', function () {
+        // INITIALIZATION OF SHOW PASSWORD
+        // =======================================================
+        $('.js-toggle-password').each(function () {
+        new HSTogglePassword(this).init()
+        });
+
+
+        // INITIALIZATION OF FORM VALIDATION
+        // =======================================================
+        $('.js-validate').each(function() {
+        $.HSCore.components.HSValidation.init($(this));
+        });
+    });
+    </script>
+
+    <!-- IE Support -->
+    <script>
+    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="./assets/vendor/babel-polyfill/polyfill.min.js"><\/script>');
+    </script>
+    {% block pagescripts %}
+    {% endblock %}
+  </body>
+</html>

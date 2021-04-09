@@ -1,0 +1,18 @@
+[{
+    "id": 1,
+    "title": " 07hs - Musculación",
+    "start": "2020-12-03 07:00",
+    "end": "2020-12-03 08:00",
+    "className": "fullcalendar-custom-event-hs-team",
+    "eventDescriptionLabel": "Descripción de la clase de musculación",
+    "eventLocationLabel": "Av. cambacua 2323, San Isidro",
+    "eventBookingUrl": "/bookings/new/1/2",
+    "allDay": false,
+    "gestsField": [
+      {
+        "value": "David Harrison",
+        "src": "/static/assets/img/160x160/img3.jpg"
+      }
+    ]
+  }
+]

@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row mt-3">
+      <div class="col">
+        <!-- Card -->
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-header-title">Tickets</h4>
+            <div class="col-auto">
+              <!-- Filter -->
+              <form>
+                <!-- Search -->
+                <div class="input-group input-group-merge input-group-flush">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">
+                      <i class="tio-search"></i>
+                    </div>
+                  </div>
+                  <input id="datatableWithSearchInput" type="search" class="form-control" placeholder="Buscar ticket"
+                    aria-label="Buscar ticket">
+                </div>
+                <!-- End Search -->
+              </form>
+              <!-- End Filter -->
+            </div>
+          </div>
+          <!-- Table -->
+          <div class="table-responsive datatable-custom">
+            <table
+              class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table datatable"
+              id="TicketTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info"
+              style="width: 100%" data-hs-datatables-options='{
+                "order": [],
+                "search": "#datatableWithSearchInput",
+                "isResponsive": false,
+                "isShowPaging": false,
+                "pagination": "datatableWithSearch"
+              }'>
+              <thead>
+                <tr role="row">
+                  <th class="sorting">Identificador</th>
+                  <th class="sorting">Asunto</th>
+                  <th class="sorting text-center">Solicitante</th>
+                  <th class="sorting">Asignado</th>
+                  <th class="sorting">Fecha</th>
+                  
+                  <th></th>
+  
+  
+                </tr>
+              </thead>
+              <tbody>
+  
+                {% for ticket in tickets %}
+                <tr role="row" class="odd">
+                  <td class="align-middle">{{ ticket.identifier }}</td>
+                  <td class="align-middle">{{ ticket.subject }}</td>
+                  <td class="align-middle text-center">{{ ticket.request_by }}</td>
+                  <td class="align-middle">{{ ticket.assign_to }}</td>
+                  <td class="align-middle">{{ ticket.created_at }}</td>
+  
+                  <td class="align-middle">
+                    <a href="#" class="btn-link btn-icon btn-transparent-dark mr-2 float-right"
+                      id="dropdown-supplier-actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="tio-more-vertical"></i>  
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right animated--fade-in-up"
+                      aria-labelledby="dropdown-supplier-actions">
+                      <a class="dropdown-item" href="">
+                        <i class="tio-edit"></i> &nbsp Editar
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

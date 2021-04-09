@@ -1,0 +1,49 @@
+version: '3'
+services:
+
+    db:
+        image: postgres
+        container_name: tickets-db
+        env_file: .env
+        ports:
+            - "5432:5432"
+        volumes:
+            - pgdata:/var/lib/postgresql
+        networks:
+            - ticketsnetwork                    
+
+    web:
+        container_name: tickets
+        restart: unless-stopped
+        working_dir: /usr/src/app
+        build: .
+        env_file: .env                   
+        stdin_open: true
+        tty: true
+        ports:
+            - "80:80"
+        volumes:
+            - .:/usr/src/app
+        networks:
+            - ticketsnetwork
+            
+    pgadmin:
+        image: dpage/pgadmin4
+        container_name: tickets-db-admin
+        env_file: .env    
+        ports:
+            - "8085:81" 
+        volumes:
+            - './tickets:/usr/src/app'
+        links:
+            - "db:pgsql-server" 
+        networks:
+            - ticketsnetwork
+
+volumes:
+    pgdata:
+    redisdata:
+
+networks:
+    ticketsnetwork:
+        driver: bridge

@@ -1,0 +1,233 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <!-- Required Meta Tags Always Come First -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Title -->
+  <title>Tickets</title>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="./favicon.ico">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS Implementing Plugins -->
+  <link rel="stylesheet" href="{% static 'assets/vendor/icon-set/style.css' %}">
+
+  <!-- CSS Front Template -->
+  <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/vendor/fullcalendar/main.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/vendor/flatpickr/dist/flatpickr.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/vendor/chart.js/dist/Chart.min.css' %}">
+
+  <!-- CSS Custom Template -->
+  <link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+
+  {% block css %}
+  {% endblock css %}
+
+</head>
+
+<body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl">
+  <!-- ========== MAIN CONTENT ========== -->
+  <!-- Navbar Vertical -->
+  <aside
+    class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered  ">
+    <div class="navbar-vertical-container">
+      <div class="navbar-vertical-footer-offset">
+        <div class="navbar-brand-wrapper justify-content-between">
+          <!-- Logo -->
+
+          <a class="navbar-brand" href="/backoffice" aria-label="Front">
+            <img class="navbar-brand-logo" src="/media/company/logo/logo.png" alt="Logo">
+            <img class="navbar-brand-logo-mini" src="/media/company/logo/logo.png" alt="Logo">
+          </a>
+
+          <!-- End Logo -->
+
+          <!-- Navbar Vertical Toggle -->
+          <button type="button"
+            class="js-navbar-vertical-aside-toggle-invoker navbar-vertical-aside-toggle btn btn-icon btn-xs btn-ghost-dark">
+            <i class="tio-clear tio-lg"></i>
+          </button>
+          <!-- End Navbar Vertical Toggle -->
+        </div>
+
+        <!-- Content -->
+        <div class="navbar-vertical-content">
+          <ul class="navbar-nav navbar-nav-lg nav-tabs">
+
+            <li class="nav-item">
+              <small class="nav-subtitle" title="Pages">DASHBOARD</small>
+              <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+            </li>
+            <li class="nav-item">
+              <a class="js-nav-tooltip-link nav-link" href=""
+                title="Position" data-placement="left">
+                <i class="tio-dashboard nav-icon"></i> <span
+                  class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Estadísticas</span>
+              </a>
+            </li>            
+
+            <li class="nav-item">
+              <small class="nav-subtitle" title="Pages">BACKOFFICE</small>
+              <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+            </li>
+            <li class="nav-item">
+              <a class="js-nav-tooltip-link nav-link" href="{% url 'backoffice:tickets' %}"
+                title="Position" data-placement="left">
+                <i class="tio-company nav-icon"></i> <span
+                  class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Tickets</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <div class="nav-divider"></div>
+            </li>
+
+            <li class="nav-item">
+              <small class="nav-subtitle" title="Mi perfil">ADMINISTRACIÓN</small>
+              <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+            </li>
+
+            <li class="nav-item ">
+              <a class="js-nav-tooltip-link nav-link" href="" title="Components"
+                data-placement="left">
+                <i class="tio-user nav-icon"></i>
+                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Usuarios</span>
+              </a>
+            </li>
+
+
+            <li class="nav-item ">
+              <a class="js-nav-tooltip-link nav-link" href="{% url 'core:logout' %}" title="Components"
+                data-placement="left">
+                <i class="tio-sign-out nav-icon"></i>
+                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Cerrar sesión</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+            </li>
+
+
+
+
+
+          </ul>
+        </div>
+        <!-- End Content -->
+
+      </div>
+    </div>
+  </aside>
+  <!-- End Navbar Vertical -->
+
+  <main id="content" role="main" class="main">
+    <!-- Content -->
+    <div class="content container-fluid">
+      <!-- Toggle -->
+      <div class="d-flex justify-content-end mt-3 mr-3">
+        <!-- Navbar Vertical Toggle -->
+        <button type="button" class="js-navbar-vertical-aside-toggle-invoker navbar-vertical-aside-toggle btn btn-icon btn-sm btn-ghost-secondary">
+          <i class="tio-first-page navbar-vertical-aside-toggle-short-align" data-toggle="tooltip" data-placement="right" title="Collapse"></i>
+          <i class="tio-last-page navbar-vertical-aside-toggle-full-align" data-toggle="tooltip" data-placement="right" title="Expand"></i>
+        </button>
+        <!-- End Navbar Vertical Toggle -->
+      </div>
+      <!-- End Toggle -->
+      <div class="row ">
+        <div class="col-12">
+          {% block content %}
+          {% endblock content %}
+        </div>
+      </div>
+      <!-- End Row -->
+    </div>
+    <!-- End Content -->
+  </main>
+
+  <body>
+
+    <!-- JS Global Compulsory  -->
+    <script src="{% static 'assets/vendor/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/jquery-migrate/dist/jquery-migrate.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- JS Implementing Plugins -->
+    <script src="{% static 'assets/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/hs-toggle-password/dist/js/hs-toggle-password.js' %}"></script>
+    <script src="{% static 'assets/vendor/jquery-validation/dist/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/fullcalendar/main.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/flatpickr/dist/flatpickr.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/datatables/media/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/chart.js/dist/Chart.min.js' %}"></script>
+
+    <!-- JS Front -->
+    <script src="{% static 'assets/js/theme.min.js' %}"></script>
+
+    <!-- JS Plugins Init. -->
+    <script>
+      $(document).on('ready', function () {
+
+      // INITIALIZATION OF NAVBAR VERTICAL NAVIGATION
+      // =======================================================
+      var sidebar = $('.js-navbar-vertical-aside').hsSideNav();
+
+        // INITIALIZATION OF SHOW PASSWORD
+        // =======================================================
+        $('.js-toggle-password').each(function () {
+          new HSTogglePassword(this).init()
+        });
+
+
+        // INITIALIZATION OF FORM VALIDATION
+        // =======================================================
+        $('.js-validate').each(function () {
+          $.HSCore.components.HSValidation.init($(this));
+        });
+
+        // INITIALIZATION OF FULLCALENDAR SELECT2
+        // =======================================================
+        $('.js-select2-custom').each(function () {
+          var select2 = $.HSCore.components.HSSelect2.init($(this));
+        });
+
+        // INITIALIZATION OF FLATPICKR
+        // =======================================================
+        $('.js-flatpickr').each(function () {
+          $.HSCore.components.HSFlatpickr.init($(this));
+        });
+
+        // INITIALIZATION OF DATATABLES
+        // =======================================================
+        var datatable = $.HSCore.components.HSDatatables.init($('.datatable'));
+        
+
+        // INITIALIZATION OF CHARTJS
+        // =======================================================
+        $('.js-chart').each(function () {
+          $.HSCore.components.HSChartJS.init($(this));
+        });
+
+      });
+    </script>
+
+    <!-- IE Support -->
+    <script>
+      if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="./assets/vendor/babel-polyfill/polyfill.min.js"><\/script>');
+    </script>
+
+    {% block scripts %}
+    {% endblock scripts %}
+
+  </body>
+
+</html>

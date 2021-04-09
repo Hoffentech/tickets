@@ -1,0 +1,119 @@
+{% extends "registration/base.html" %}
+{% load static %}
+
+{% block pagescss %}
+<link rel="stylesheet" href="{% static 'libs/swiper/dist/css/swiper.min.css' %}">
+<link rel="stylesheet" href="{% static 'libs/@fancyapps/fancybox/dist/jquery.fancybox.min.css' %}">
+<link rel="stylesheet" href="{% static 'libs/flatpickr/dist/flatpickr.min.css' %}">
+{% endblock %}
+{% block content %}
+<section>
+    <div class="container d-flex flex-column">
+        <div class="row align-items-center justify-content-center min-vh-100">
+            <div class="col-md-8 col-lg-5 py-6">
+                <div>
+                    <div class="mb-5 text-center">
+                        <h6 class="h3 mb-1">Bienvenido a Ikon</h6>
+                        <p class="text-muted mb-0">Estás a un paso de volar</p>
+                    </div>
+                    <span class="clearfix"></span>
+                    <form method="post" action="{% url 'core:signup' %}?next={{ next_url }}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="form-control-label">Nombre</label>
+                            <div class="input-group input-group-merge">
+                                {{ form.first_name }}
+                                {{ form.errors.first_name }}
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i data-feather="user"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label">Apellido</label>
+                            <div class="input-group input-group-merge">
+                                {{ form.last_name }}
+                                {{ form.errors.last_name }}
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i data-feather="user"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label">DNI / Pasaporte</label>
+                            <div class="input-group input-group-merge">
+                                {{ form.id_number }}
+                                {{ form.errors.id_number }}
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i data-feather="book"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label">Nacionalidad</label>
+                            <div class="input-group input-group-merge">
+                                {{ form.nationality }}
+                                {{ form.errors.nationality }}
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i data-feather="map-pin"></i></span>
+                                </div>
+                            </div>
+                        </div>                                                
+                        <div class="form-group">
+                            <label class="form-control-label">Email</label>
+                            <div class="input-group input-group-merge">
+                                {{ form.email }}
+                                {{ form.errors.email }}
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i data-feather="at-sign"></i></span>
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="form-group mb-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <label class="form-control-label">Password</label>
+                                </div>
+                                <div class="mb-2">
+                                    <a href="#" class="small text-muted text-underline--dashed border-primary" data-toggle="password-text" data-target="#input-password">Mostrar contraseña</a>
+                                </div>
+                            </div>
+                            <div class="input-group input-group-merge">
+                                {{ form.password }}                                
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i data-feather="key"></i></span>
+                                </div>
+                            </div>
+                            {{ form.errors.password }}
+                        </div>
+                        <div class="my-4">
+                            <div class="custom-control custom-checkbox mb-3">
+                                <input type="checkbox" class="custom-control-input" id="check-terms">
+                                <label class="custom-control-label" for="check-terms">Acepto los términos <a href="../../pages/utility/terms.html">terminos y condiciones</a></label>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-block btn-primary">Crear cuenta</button>
+                        </div>
+                    </form>
+                    <div class="py-3 text-center">
+                        <span class="text-xs text-uppercase">o</span>
+                    </div>
+
+                    <div class="text-center"><small>¿Ya estás regisrado?</small>
+                        <a href="/login" class="small font-weight-bold">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block pagescripts %}
+<script src="{% static 'libs/swiper/dist/js/swiper.min.js' %}"></script>
+<script src="{% static 'libs/@fancyapps/fancybox/dist/jquery.fancybox.min.js' %}"></script>
+<script src="{% static 'libs/flatpickr/dist/flatpickr.min.js' %}"></script>
+{% endblock %}
+
+

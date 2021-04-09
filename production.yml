@@ -1,0 +1,111 @@
+version: '3'
+services:                
+
+    web:
+        container_name: tickets
+        restart: always
+        working_dir: /usr/src/app
+        command: gunicorn --chdir /usr/src/app/tickets/ tickets.wsgi:application -w 4 -b 0.0.0.0:8080 --reload --log-level debug
+        build: .      
+        env_file: .env       
+        environment:
+            VIRTUAL_HOST: 'tickets'                    
+        stdin_open: true
+        tty: true        
+        ports:
+            - "8080:8080"
+        volumes:
+            - .:/usr/src/app
+            - static:/usr/src/app/tickets/static
+            - media:/usr/src/app/tickets/media 
+        networks:
+            - ticketsnetwork
+          
+    nginx:
+        restart: always
+        build: ./nginx
+        environment:
+            tickets_HOST: 'tickets.hoffentech.work'     
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./nginx:/usr/src/app
+            - static:/usr/src/app/tickets/static
+            - media:/usr/src/app/tickets/media
+            - ./nginx/sites-enabled:/etc/nginx
+            - ./nginx/ssl/conf:/etc/nginx/snippets
+            - ./nginx/ssl/private:/etc/ssl/private
+            - ./nginx/ssl/certs:/etc/ssl/certs
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+            - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
+            - ./certbot/conf:/etc/letsencrypt
+            - ./certbot/www:/var/www/certbot        
+        links:
+            - web                   
+        depends_on:
+            - web
+        networks:
+            - ticketsnetwork
+
+    certbot:
+        image: certbot/certbot
+        restart: unless-stopped
+        volumes:
+            - ./certbot/conf:/etc/letsencrypt
+            - ./certbot/www:/var/www/certbot
+        entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+                    
+    redis:
+        container_name: tickets-redis
+        restart: always
+        image: 'redis:latest'
+        container_name: hit-redis
+        ports:
+            - '6382:6379'
+        volumes:
+            - 'redisdata:/data'
+        networks:
+            - ticketsnetwork
+
+    celeryworker:
+        container_name: tickets-celery-worker
+        restart: unless-stopped
+        image: webworkerimage
+        working_dir: /usr/src/app
+        build: .
+        volumes:
+            - './tickets:/usr/src/app'
+        env_file: .env
+        depends_on:
+            - redis        
+        command: celery worker --app=tickets --maxtasksperchild 10 -E --loglevel=DEBUG            
+        networks:
+            - ticketsnetwork
+
+    celerybeat:
+        container_name: tickets-celery-beat
+        restart: unless-stopped
+        build: .
+        image: webworkerimage
+        working_dir: /usr/src/app
+        volumes:
+            - './tickets:/usr/src/app'
+        env_file: .env
+        depends_on:
+            - redis
+        command: celery beat --app=tickets -s /tmp/celerybeat-schedule --pid=/tmp/celery.pid --loglevel=DEBUG
+        networks:
+            - ticketsnetwork
+
+volumes:
+    pgdata:
+    static:
+    media:
+    redisdata:
+    certbot:
+
+networks:
+    ticketsnetwork:
+        driver: bridge

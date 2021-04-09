@@ -1,0 +1,43 @@
+node_modules
+
+####BACKEND####
+
+# Python cache
+*.pyc
+__pycache__/
+*.pyc
+
+# Virtual environment
+env/
+venv/
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Mac desktop service store files
+.DS_Store
+
+# Env variables
+.env
+
+## Project
+.DS_Store
+.vscode
+.log
+
+# Local Settings
+tickets/tickets/local_settings.py
+
+# Static
+/media/
+
+# Media files
+tickets/media/
+tickets/static/
+nginx/tickets/
+
+certbot/
+
