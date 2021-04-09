@@ -3,48 +3,68 @@ from django import forms
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 
+from core.models import User
 from backend.models import *
 
 class TicketForm(forms.ModelForm):
 
-    title = forms.CharField(
-        required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título'}),
-        label=_("Título")
-    )
-
     ticket_type = forms.ModelChoiceField(
         queryset= TicketType.objects.all(),
         empty_label= "Tipo",
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        widget=forms.Select(attrs={'class': 'form-control mb-4'}),
         label=_("Tipo")
     )
 
     subject = forms.CharField(
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Asunto'}),
+        widget=forms.TextInput(attrs={'class': 'form-control mb-4', 'placeholder': 'Asunto'}),
         label=_("Asunto")
     )        
 
     description = forms.CharField(
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        widget=forms.Textarea(attrs={'class': 'form-control mb-4', 'rows': 3}),
         label=_("Descripción")
     )        
 
-    image = forms.FileField(
+    attachment = forms.FileField(
         required=False,
-        widget=forms.FileInput(attrs={'class': 'custom-file-input', 'placeholder': 'Imágen'}),
-        label=_("Adjuntos")
+        widget=forms.FileInput(attrs={'class': 'form-control mb-4', 'placeholder': 'Adjunto'}),
+        label=_("Adjunto")
     )
+
+    request_by = forms.CharField(required=False,widget=forms.HiddenInput())
     
     class Meta:
         model = Ticket
-        exclude = ['created_at', 'modified_at', 'assign_to', 'request_by', 'identifier']
+        exclude = ['created_at', 'modified_at', 'assign_to', 'identifier']
 
-    def clean(self):
-        if self.instance.request_by:
-            request_by = self.instance.invoice_number    
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+
+    def clean(self):        
+        if self.instance.request_by is not None:
+            self.cleaned_data['request_by'] = self.instance.request_by    
         else:
-            request_by = self.request.user
+            self.cleaned_data['request_by'] = self.request.user
+        
         return self.cleaned_data
+
+
+class UserForm(forms.ModelForm):
+
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control mb-3'}),
+        label=_("Nombre")
+    )
+
+    email = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control mb-3'}),
+        label=_("Email")
+    )
+
+    class Meta:
+        model = User
+        fields = ("name", "email", "is_active")     
+

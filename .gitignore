@@ -27,6 +27,7 @@ $RECYCLE.BIN/
 .DS_Store
 .vscode
 .log
+debug.log
 
 # Local Settings
 tickets/tickets/local_settings.py

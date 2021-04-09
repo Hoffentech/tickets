@@ -41,11 +41,9 @@
                   <th class="sorting">Asunto</th>
                   <th class="sorting text-center">Solicitante</th>
                   <th class="sorting">Asignado</th>
-                  <th class="sorting">Fecha</th>
-                  
+                  <th class="sorting">Fecha</th>                  
                   <th></th>
-  
-  
+
                 </tr>
               </thead>
               <tbody>
@@ -54,9 +52,9 @@
                 <tr role="row" class="odd">
                   <td class="align-middle">{{ ticket.identifier }}</td>
                   <td class="align-middle">{{ ticket.subject }}</td>
-                  <td class="align-middle text-center">{{ ticket.request_by }}</td>
-                  <td class="align-middle">{{ ticket.assign_to }}</td>
-                  <td class="align-middle">{{ ticket.created_at }}</td>
+                  <td class="align-middle text-center">{{ ticket.request_by|default_if_none:""  }}</td>
+                  <td class="align-middle">{{ ticket.assign_to|default_if_none:"No asignado" }}</td>
+                  <td class="align-middle">{{ ticket.created_at|date:"Y-m-d" }}</td>
   
                   <td class="align-middle">
                     <a href="#" class="btn-link btn-icon btn-transparent-dark mr-2 float-right"
@@ -65,7 +63,10 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animated--fade-in-up"
                       aria-labelledby="dropdown-supplier-actions">
-                      <a class="dropdown-item" href="">
+                      <a class="dropdown-item" href="{% url 'backoffice:ticket' pk=ticket.pk %}">
+                        <i class="tio-visible"></i> &nbsp Detalle
+                      </a>                      
+                      <a class="dropdown-item" href="{% url 'backoffice:ticket-update' pk=ticket.pk %}">
                         <i class="tio-edit"></i> &nbsp Editar
                       </a>
                     </div>

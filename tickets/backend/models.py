@@ -9,6 +9,13 @@ class TicketType(models.Model):
     identifier = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
 
+    class Meta:
+        verbose_name = _('Ticket tipo')
+        verbose_name_plural = _('Tickets tipos')
+
+    def __str__(self):
+        return "{0}".format(self.description)    
+
 class Ticket(models.Model):
     # Ticket type
     identifier = models.CharField(max_length=255, blank=True, null=True, unique=True, default=uuid.uuid4)    
@@ -21,6 +28,13 @@ class Ticket(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = _('Ticket')
+        verbose_name_plural = _('Tickets')
+
+    def __str__(self):
+        return "{0}".format(self.subject)   
+
 class TicketComments(models.Model):
     # Ticket type
     ticket = models.ForeignKey('Ticket', on_delete=models.CASCADE, blank=True, null=True)
@@ -29,3 +43,10 @@ class TicketComments(models.Model):
     comment_by = models.ForeignKey('core.User', on_delete=models.SET_NULL, blank=True, null=True)    
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _('Ticket comentario')
+        verbose_name_plural = _('Tickets comentarios')
+
+    def __str__(self):
+        return "{0}".format(self.ticket) 

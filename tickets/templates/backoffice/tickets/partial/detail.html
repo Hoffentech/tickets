@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="row mt-3">
+        <div class="col">
+            <!-- Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-header-title">Detalle del ticket</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Identificador</dt>
+                        <dd class="col-sm-9">{{ticket.identifier}}</dd>
+
+                        <dt class="col-sm-3">Asunto</dt>
+                        <dd class="col-sm-9">
+                            <p>{{ticket.subject}}</p>                            
+                        </dd>
+
+                        <dt class="col-sm-3">Descripción</dt>
+                        <dd class="col-sm-9"><p>{{ticket.description}}</p></dd>
+                        <br><br>
+
+                        <dt class="col-sm-3">Solicitado por</dt>
+                        <dd class="col-sm-9">{{ticket.request_by}}</dd>
+
+                        <dt class="col-sm-3">Asignado</dt>
+                        <dd class="col-sm-9">{{ticket.assign_to|default_if_none:"No asignado"}}</dd>
+
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <!-- Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-header-title">Historial</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="step">
+                        <li class="step-item">
+                        <div class="step-content-wrapper">
+                            <span class="step-icon step-icon-soft-primary">1</span>
+                            <div class="step-content">
+                            <h4>Ticket ingresado</h4>
+                            <p class="step-text">2021-04-21</p>
+                            </div>
+                        </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
