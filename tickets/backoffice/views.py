@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 
 from core.models import User
 from backend.models import *
-from backoffice.forms import TicketForm, UserForm
+from backoffice.forms import TicketForm, UserForm, TicketCommentsForm, TicketAssignForm
 
 #----------------------------------------------------------------------------------/*
 # | TICKETS VIEWS
@@ -25,6 +25,11 @@ class TicketsListView(ListView):
     model = Ticket
     template_name = 'backoffice/tickets/index.html'
     context_object_name = 'tickets'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        context['users'] = User.objects.all()
+        return context
 
 @method_decorator(never_cache, name='dispatch')
 @method_decorator(login_required(login_url='../login/'), name='dispatch')
@@ -63,6 +68,49 @@ class TicketUpdateView(UpdateView):
         kw = super().get_form_kwargs()
         kw['request'] = self.request
         return kw    
+
+@method_decorator(never_cache, name='dispatch')
+@method_decorator(login_required(login_url='../login/'), name='dispatch')
+class TicketCommentView(CreateView):
+    # Comentar un ticket
+    model = TicketComments
+    form_class = TicketCommentsForm    
+    template_name = 'backoffice/tickets/comment.html'
+    context_object_name = 'ticket'    
+    success_url = reverse_lazy('backoffice:tickets')  
+
+    def get_form_kwargs(self):
+        kw = super().get_form_kwargs()
+        kw['request'] = self.request
+        return kw
+
+    def get_initial(self):
+        return { 'ticket': self.kwargs['pk'] }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        context['ticket'] = Ticket.objects.get(pk=self.kwargs['pk'])
+        return context
+
+@method_decorator(never_cache, name='dispatch')
+@method_decorator(login_required(login_url='../login/'), name='dispatch')
+class TicketAssignView(UpdateView):
+    # Asignar un ticket
+    model = Ticket
+    form_class = TicketAssignForm
+    template_name = 'backoffice/tickets/partial/assign.html'
+    context_object_name = 'ticket'    
+    success_url = reverse_lazy('backoffice:tickets')  
+
+    def get_initial(self):
+        return { 'ticket': self.kwargs['pk'] }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)        
+        context['ticket'] = Ticket.objects.get(pk=self.kwargs['pk'])
+        context['users'] = User.objects.all()
+        return context
+
 
 
 #----------------------------------------------------------------------------------/*

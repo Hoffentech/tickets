@@ -11,11 +11,33 @@
               enctype="multipart/form-data">
               {% csrf_token %}
   
-              {{ form }}
+              <div class="form-group">
+                {{ form.ticket_type.label }}
+                {{ form.ticket_type }}
+              </div>
+
+              <div class="form-group">
+                {{ form.subject.label }}
+                {{ form.subject }}
+              </div>
+
+              <div class="form-group">
+                {{ form.description.label }}
+                {{ form.description }}
+              </div>
+  
+              <div class="form-group">
+                {{ form.attachment.label }}
+                <div class="custom-file">
+                  {{ form.attachment }}
+                  <label class="custom-file-label" for="customFileEg1">Adjunto</label>
+                </div>              
+              </div>
   
               <div class="row mt-3">
                 <div class="col">
                   <hr>
+                  {{ form.request_by }}
                   <a href="{% url 'backoffice:tickets' }" class="btn btn-link text-danger">Cancelar</a>
                   <button type="submit" class="btn btn-primary float-right">Confirmar</button>
                 </div>

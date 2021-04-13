@@ -5,3 +5,14 @@
 {% include 'backoffice/tickets/partial/header-index.html' %}
 {% include 'backoffice/tickets/partial/list.html' %}
 {% endblock %}
+
+{% block scripts %}
+<script>
+$('#assign-modal').on('shown.bs.modal', function (event) {
+    var button = $(event.relatedTarget)    
+    var url = button.data('url')     
+    var form = document.getElementById('assign_data_form')
+    form.action = url; 
+})
+</script>
+{% endblock %}

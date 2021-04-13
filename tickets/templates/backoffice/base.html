@@ -217,6 +217,12 @@
           $.HSCore.components.HSChartJS.init($(this));
         });
 
+        // INITIALIZATION OF CUSTOM FILE
+        // =======================================================
+        $('.js-file-attach').each(function () {
+          var customFile = new HSFileAttach($(this)).init();
+        });
+
       });
     </script>
 

@@ -51,6 +51,52 @@ class TicketForm(forms.ModelForm):
         
         return self.cleaned_data
 
+class TicketCommentsForm(forms.ModelForm):
+
+    comment = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={'class': 'form-control mb-4', 'rows': 3}),
+        label=_("Descripción")
+    )        
+
+    attachment = forms.FileField(
+        required=False,
+        widget=forms.FileInput(attrs={'class': 'js-file-attach custom-file-input mb-4', 'placeholder': 'Adjunto'}),
+        label=_("Adjunto")
+    )
+    
+    ticket = forms.CharField(required=False,widget=forms.HiddenInput())
+    comment_by = forms.CharField(required=False,widget=forms.HiddenInput())
+    
+    class Meta:
+        model = TicketComments
+        exclude = ['created_at', 'modified_at']
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super().__init__(*args, **kwargs)
+
+    def clean(self):        
+
+        if self.instance.comment_by is not None:
+            self.cleaned_data['comment_by'] = self.instance.comment_by    
+        else:
+            self.cleaned_data['comment_by'] = self.request.user
+
+        self.cleaned_data['ticket'] = Ticket.objects.get(pk=self.cleaned_data['ticket'])
+        
+        return self.cleaned_data
+
+class TicketAssignForm(forms.ModelForm):
+    assign_to = forms.CharField(required=False,widget=forms.HiddenInput())
+
+    class Meta:
+        model = Ticket
+        fields = ['assign_to']
+
+    def clean(self):        
+        self.cleaned_data['assign_to'] = User.objects.get(pk=self.cleaned_data['assign_to'])    
+        return self.cleaned_data
 
 class UserForm(forms.ModelForm):
 

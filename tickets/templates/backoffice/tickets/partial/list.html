@@ -42,7 +42,7 @@
                   <th class="sorting text-center">Solicitante</th>
                   <th class="sorting">Asignado</th>
                   <th class="sorting">Fecha</th>                  
-                  <th></th>
+                  <th class="no-sort text-center">Acciones</th>
 
                 </tr>
               </thead>
@@ -50,26 +50,39 @@
   
                 {% for ticket in tickets %}
                 <tr role="row" class="odd">
-                  <td class="align-middle">{{ ticket.identifier }}</td>
-                  <td class="align-middle">{{ ticket.subject }}</td>
+                  <td class="align-middle">{{ ticket.id }}</td>
+                  <td class="align-middle"><a href="{% url 'backoffice:ticket' pk=ticket.pk %}">{{ ticket.subject }}</a></td>
                   <td class="align-middle text-center">{{ ticket.request_by|default_if_none:""  }}</td>
                   <td class="align-middle">{{ ticket.assign_to|default_if_none:"No asignado" }}</td>
                   <td class="align-middle">{{ ticket.created_at|date:"Y-m-d" }}</td>
   
-                  <td class="align-middle">
+                  <td class="align-middle text-center">                    
                     <a href="#" class="btn-link btn-icon btn-transparent-dark mr-2 float-right"
                       id="dropdown-supplier-actions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="tio-more-vertical"></i>  
                     </a>
+                    
                     <div class="dropdown-menu dropdown-menu-right animated--fade-in-up"
-                      aria-labelledby="dropdown-supplier-actions">
+                      aria-labelledby="dropdown-supplier-actions">                      
+                      <a class="dropdown-item" href="{% url 'backoffice:ticket-comment' pk=ticket.pk %}">
+                        <i class="tio-comment-vs-outlined"></i> &nbsp Comentar
+                      </a>                      
+                      <a class="dropdown-item" href="#" data-url="{% url 'backoffice:ticket-assign' pk=ticket.pk %}" data-toggle="modal" data-target="#assign-modal">
+                        <i class="tio-user"></i> &nbsp Asignar
+                      </a>                                            
                       <a class="dropdown-item" href="{% url 'backoffice:ticket' pk=ticket.pk %}">
                         <i class="tio-visible"></i> &nbsp Detalle
-                      </a>                      
+                      </a>
                       <a class="dropdown-item" href="{% url 'backoffice:ticket-update' pk=ticket.pk %}">
                         <i class="tio-edit"></i> &nbsp Editar
                       </a>
                     </div>
+                    <a class="btn-link btn-icon btn-transparent-dark mr-2 float-right" href="{% url 'backoffice:ticket-comment' pk=ticket.pk %}">
+                      <i class="tio-comment-vs-outlined"></i>
+                    </a>  
+                    <a class="btn-link btn-icon btn-transparent-dark mr-2 float-right" href="#" data-url="{% url 'backoffice:ticket-assign' pk=ticket.pk %}" data-toggle="modal" data-target="#assign-modal">
+                      <i class="tio-user"></i>
+                    </a>                        
                   </td>
                 </tr>
                 {% endfor %}
@@ -81,3 +94,20 @@
     </div>
   </div>
   
+<!-- Modal -->
+<div class="modal fade" id="assign-modal" tabindex="-1" role="dialog" aria-labelledby="assign-modal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="assign-modalLabel">Asignar ticket</h5>
+        <button type="button" class="btn btn-xs btn-icon btn-ghost-secondary" data-dismiss="modal" aria-label="Close">
+          <i class="tio-clear tio-lg"></i>
+        </button>
+      </div>
+      <div class="modal-body">      
+          {% include 'backoffice/tickets/partial/assign.html' %}     
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Modal -->

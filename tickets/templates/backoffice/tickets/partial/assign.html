@@ -1,0 +1,25 @@
+<form id="assign_data_form" method="post" action=""
+    enctype="multipart/form-data">
+    {% csrf_token %}
+    <ul class="list-group">
+        {% for user in users %}
+        <li class="list-group-item d-flex align-items-center">
+            <i class="tio-user list-group-icon"></i> {{ user }}
+            <div class=" ml-auto">
+
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="checkbok_{{user.id}}" class="custom-control-input" name="assign_to" value={{user.id}}>
+                    <label class="custom-control-label" for="checkbok_{{user.id}}"></label>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="row mt-3">
+        <div class="col">
+            <hr>
+            <a href="{% url 'backoffice:ticket' pk=ticket.pk }" class="btn btn-link text-danger">Cancelar</a>
+            <button type="submit" class="btn btn-primary float-right">Asignar</button>
+        </div>
+    </div>
+</form>

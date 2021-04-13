@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="row mt-3">
         <div class="col">
@@ -18,6 +19,11 @@
 
                         <dt class="col-sm-3">Descripción</dt>
                         <dd class="col-sm-9"><p>{{ticket.description}}</p></dd>
+
+                        {% if ticket.attachment %}
+                        <dt class="col-sm-3">Adjunto</dt>
+                        <dd class="col-sm-9">{{ticket.attachment}} <a target="_blank" href="/media/{{ticket.attachment}}"><i class="tio-download-to"></i></a></dd>
+                        {% endif %}
                         <br><br>
 
                         <dt class="col-sm-3">Solicitado por</dt>
@@ -25,7 +31,6 @@
 
                         <dt class="col-sm-3">Asignado</dt>
                         <dd class="col-sm-9">{{ticket.assign_to|default_if_none:"No asignado"}}</dd>
-
 
                     </dl>
                 </div>
@@ -41,15 +46,18 @@
                 </div>
                 <div class="card-body">
                     <ul class="step">
+                        {% for ticket in ticket.ticketcomments_set.all %}
                         <li class="step-item">
                         <div class="step-content-wrapper">
                             <span class="step-icon step-icon-soft-primary">1</span>
                             <div class="step-content">
-                            <h4>Ticket ingresado</h4>
-                            <p class="step-text">2021-04-21</p>
+                            <h4>Nuevo comentario</h4>
+                            <p class="step-text">{{ticket.comment}}</p>
+                            <span class="step-text">{{ticket.created_at}}</span>
                             </div>
                         </div>
                         </li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>

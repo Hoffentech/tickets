@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row mt-3">
+    <div class="col col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="fs-0">Comentar ticket</h5>
+          <hr>
+        </div>
+        <div class="card-body">
+          <form id="space_data_form" method="post" action="{% url 'backoffice:ticket-comment' pk=ticket.pk %}"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+              {{ form.comment.label }}
+              {{ form.comment }}
+            </div>
+            
+            <div class="row mt-3">
+              <div class="col">
+                <hr>
+                {{ form.ticket }}
+                <a href="{% url 'backoffice:ticket' pk=ticket.pk }" class="btn btn-link text-danger">Cancelar</a>
+                <button type="submit" class="btn btn-primary float-right">Confirmar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
